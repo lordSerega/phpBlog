@@ -45,19 +45,31 @@ class ctrlIndex extends ctrl {
 
             $target = "img/".basename($image);
 
-            $this->db->query("INSERT INTO post (title,postDate,preview,textFull,postIMG) VALUES(?,?,?,?,?)", $_POST['title'], $_POST['postDate'], $_POST['preview'], $_POST['full'],$image);
-               if (move_uploaded_file($_FILES['image']['tmp_name'], $target)){
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $target)){
 
-               }
-                header("Location: /");
+                [$imageWidth, $imageHeight] = getimagesize($target);
 
+                if ($imageWidth <= 300 && $imageHeight <= 300) {
+                    $this->db->query("INSERT INTO post (title,postDate,preview,textFull,postIMG) VALUES(?,?,?,?,?)", $_POST['title'], $_POST['postDate'], $_POST['preview'], $_POST['full'],$image);
+
+                    header("Location: /");
+
+                } else {
+
+                    echo "Файл больше";
+
+
+
+                }
+
+            }
         }
-
-
-
-
         $this->out('admin.php');
 
+    }
 
+    function post($id){
+        $this->post = $this->db->query("SELECT * FROM post WHERE id = ?", $id)->assoc();
+        $this->out('post.php');
     }
 }

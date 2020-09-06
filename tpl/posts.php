@@ -12,7 +12,7 @@
                     <div class="card">
                         <img src="/img/<?=$value['postIMG']?>"  class="card-img-top" alt="sdfs">
                         <div class="card-body">
-                            <h5 class="card-title"><?=$value['title']?></h5>
+                            <a href="/?post/<?=$value['id']?>"><h5><?=$value['title']?></h5></a>
                             <p class="card-text"><?=$value['preview']?></p>
                             <p class="card-text"><small class="text-muted"><?=$value['postDate']?></small></p>
                         </div>
