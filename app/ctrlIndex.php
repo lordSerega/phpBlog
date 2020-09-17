@@ -4,21 +4,19 @@ class ctrlIndex extends ctrl {
     function index() {
 
         $page = 1; // текущая страница
-        $kol = 3;  //количество записей для вывода
-        $art = ($page * $kol) - $kol; // определяем, с какой записи нам выводить
+        $count = 5;  //количество записей для вывода
 
-        $this->posts = $this->db->query("SELECT * FROM post ORDER BY postDate DESC LIMIT $art, $kol")->all();
 
-        $this->navigation = $this->db->query("SELECT COUNT(*) FROM post")->assoc();
+        $art = ($page * $count) - $count; // определяем, с какой записи нам выводить
+        $this->posts = $this->db->query("SELECT * FROM post ORDER BY postDate DESC LIMIT $art, $count")->all();
 
-        $total = $this->navigation[0];
-
-        $str_pag = ceil($total / $kol);
 
 
 
         $this->out('posts.php');
     }
+
+
     function login() {
 
         if (!empty($_POST)) {
@@ -35,20 +33,22 @@ class ctrlIndex extends ctrl {
         $this->out('login.php');
     }
 
+    function logoff() {
+
+        setcookie('uid', '', 0, '/');
+        setcookie('key', '', 0, '/');
+        return Header('Location: /');
+
+    }
+
     function admin() {
 
         if (!$this->user) return header("Location: /");
 
-        if (!empty($_POST)) {
-
             $image = $_FILES['image']['name'];
-
             $target = "img/".basename($image);
-
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target)){
-
                 [$imageWidth, $imageHeight] = getimagesize($target);
-
                 if ($imageWidth <= 300 && $imageHeight <= 300) {
                     $this->db->query("INSERT INTO post (title,postDate,preview,textFull,postIMG) VALUES(?,?,?,?,?)", $_POST['title'], $_POST['postDate'], $_POST['preview'], $_POST['full'],$image);
 
@@ -56,13 +56,10 @@ class ctrlIndex extends ctrl {
 
                 } else {
 
-                    echo "Файл больше";
-
-
+                    $this->error = 'Фотография должна была быть 300*300 в формате jpg или gif';
 
                 }
 
-            }
         }
         $this->out('admin.php');
 

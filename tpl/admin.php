@@ -4,6 +4,12 @@
         <div class="col-xl-6 p-5 card">
             <h1 class="text-center">Добавление нового поста</h1>
 
+            <?php if($this->error) {?>
+                <div class="alert alert-danger" role="alert">
+                    <?=@$this->error;?>
+                </div>
+            <?php }?>
+
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Заголовок</label>

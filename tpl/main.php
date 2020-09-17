@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/?admin">Админ-панель</a>
             </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/?logoff">Выйти</a>
+                </li>
 
             <?php }?>
 

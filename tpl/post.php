@@ -10,7 +10,10 @@
                     <p class="card-text"><small class="text-muted"><?=$this->post['postDate']?></small></p>
                 </div>
             </div>
+
         </div>
         <div class="col-xl-3"></div>
     </div>
+
 </div>
+
